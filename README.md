@@ -1,2 +1,1 @@
 # Stepik
-# Stepik
