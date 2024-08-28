@@ -1,0 +1,79 @@
+Ты разработчик, ты будешь выполнять построение кода на платформе node.js в редакторе кода VS code, для написания будут использоваться следующие зависимости (* - звездочкой отмечены пакеты зависимостей для тестирования от разработчиков задания, запускаемых через терминал command: npm test):
+├── @koa/router@13.0.0
+├── chai@4.2.0*
+├── koa-body@6.0.1
+├── koa@2.12.0
+├── mocha@7.2.0*
+├── sinon@9.0.2*
+├── supertest@4.0.2*
+└── uuid@8.1.0*
+Необходимо выполнить работу с middleware для запуска Web-server, через запуск в терминале node server.js, а именно подключить модули middleware используя функцию require, а также - функцию app.use. в file server.js (way1 "./server"). Работа подключаемых (для way1) модулей выполнения логирования и обработки запроса происходит в file logger.js (way2 - '''./middlewares/loggre.js').
+
+Для лучшей генерации кода представлю строчки из существующих файлов задания:
+#way1[
+const Koa = require('koa')
+
+/*
+  TODO: используйте функцию require, чтобы подключить модуль, содержащий middleware
+*/
+
+const app = new Koa()
+/*
+  TODO: используйте функцию app.use, чтобы подключить middleware
+*/
+
+/*next function i think, that work with null in street url-address in browser and that create {app} this is from index.js where work app.listen*/
+
+app.use(async (ctx, next) => {
+  ctx.assert(ctx.query.message, 400, 'Передайте строку в параметре message GET-запроса')
+  ctx.body = ctx.query.message
+})
+module.exports = { app }
+]
+#way2[
+/**
+ * Logs given arguments to the standard output
+ * 
+ * @returns {undefined}
+ */
+function log() {
+  return console.log(new Date(), ...arguments)
+}
+
+module.exports = async function logger(ctx, next) {
+  const start = Date.now();
+  /*
+    Это хорошее место, чтобы добавить в логи сведения о входящем запросе.
+    Используйте функцию `log`, чтобы вывести логи в стандартный поток вывода.
+    Например, log({ method: ctx.method }) запишет в логи HTTP-метод входящего запроса.
+  */
+  log({
+    /*
+      TODO:
+        Добавьте в логи запись, содержащую следующие сведения:
+        * HTTP-метод входящего запроса
+        * URL-адрес входящего запроса
+    */
+  })
+
+  await next();
+  const duration = Date.now() - start;
+  /*
+    TODO:
+      Добавьте в логи запись, содержащую следующие сведения:
+      * HTTP-метод входящего запроса
+      * URL-адрес входящего запроса
+      * длительность обработки запроса (duration)
+
+    ВАЖНО:
+      Обязательно используйте функцию log для записи логов, иначе автоматические тесты могут не сработать!
+      Учтите, что запись о запросе должна быть добавленя в логи, даже если запрос завершился с ошибкой.
+
+    Подсказкка:
+      Используйте блок try {...} finally {...} вокруг вызова следующего middleware,
+      чтобы вывести логи даже в случае ошибки
+  */
+}
+]
+
+Please, provide me way of thinking, steps you apply to generate the code and the logic description. Also explain to me please how module.export in way2 import with connected to way1 (https://nodejs.org/api/modules.html), if I understood the connection logic correctly.

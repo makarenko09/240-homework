@@ -12,21 +12,12 @@ module.exports = async function logger(ctx, next) {
 
   // Logging the incoming request method and URL
   log({
-    method: ctx.method,
-    url: ctx.url
+   
   });
 
   try {
     // Pass control to the next middleware
     await next();
-  } catch (err) {
-    // Log any error that occurs
-    log({
-      method: ctx.method,
-      url: ctx.url,
-      error: err.message
-    });
-    throw err; // Re-throw the error after logging it
   } finally {
     const duration = Date.now() - start;
 
